@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>ShopDog - 펌프펀 밈코인</title>
+  <style>
+    body {
+      margin: 0;
+      font-family: 'Comic Sans MS', sans-serif;
+      background: linear-gradient(to right, #ffe3e3, #fff6e0);
+      color: #333;
+    }
+    header {
+      background-color: #ff90b3;
+      padding: 40px;
+      text-align: center;
+      color: white;
+    }
+    header h1 {
+      font-size: 48px;
+      margin-bottom: 10px;
+    }
+    header p {
+      font-size: 18px;
+    }
+    section {
+      max-width: 800px;
+      margin: 40px auto;
+      padding: 20px;
+      background: white;
+      border-radius: 16px;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+    }
+    h2 {
+      color: #ff5e8e;
+    }
+    .button {
+      display: inline-block;
+      padding: 12px 24px;
+      margin-top: 20px;
+      background-color: #ff5e8e;
+      color: white;
+      border-radius: 8px;
+      text-decoration: none;
+    }
+    footer {
+      text-align: center;
+      padding: 20px;
+      font-size: 14px;
+      color: #666;
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <h1>🛍️ ShopDog</h1>
+    <p>쇼핑을 너무 좋아하는 개, 이제는 코인까지 샀다!</p>
+  </header>
+
+  <section>
+    <h2>🚀 코인이 뭐예요?</h2>
+    <p><strong>ShopDog</strong>은 펌프펀에서 탄생한 강아지 밈코인입니다. 이 강아지는 쇼핑 중독입니다.  
+    지갑에 뭐만 들어오면 쇼핑! 이제는 당신의 지갑까지 쇼핑하게 될지도?</p>
+    <a class="button" href="https://pump.fun" target="_blank">🔗 Pump.fun에서 거래하기</a>
+  </section>
+
+  <section>
+    <h2>📊 Tokenomics</h2>
+    <ul>
+      <li>총 발행량: 1,000,000,000 $SHOPDOG</li>
+      <li>LP 락업: 100%</li>
+      <li>세금: 0%</li>
+    </ul>
+  </section>
+
+  <section>
+    <h2>📅 Roadmap</h2>
+    <ol>
+      <li>✅ 펌프펀 상장</li>
+      <li>🔥 트위터 밈 전쟁 시작</li>
+      <li>🎮 밈 게임 출시 예정</li>
+      <li>🧸 굿즈 출시?!</li>
+    </ol>
+  </section>
+
+  <section>
+    <h2>🌐 커뮤니티</h2>
+    <ul>
+      <li><a href="https://twitter.com/yourshopdog" target="_blank">🐦 Twitter</a></li>
+      <li><a href="https://t.me/shopdogcoin" target="_blank">💬 Telegram</a></li>
+    </ul>
+  </section>
+
+  <footer>
+    &copy; 2025 ShopDog. 쇼핑하는 개가 미래다.
+  </footer>
+</body>
+</html>
