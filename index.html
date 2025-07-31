@@ -228,8 +228,9 @@
         const db = getFirestore(app);
         const auth = getAuth(app);
         const storage = getStorage(app);
-
-        const paintingsCollection = collection(db, "paintings");
+        
+        // [변경점] 데이터베이스 컬렉션 이름을 'namgang_artworks'으로 변경
+        const paintingsCollection = collection(db, "namgang_artworks");
 
         // UI 요소
         const gallery = document.getElementById('painting-gallery');
@@ -449,7 +450,7 @@
                 }
 
                 if (paintingId) {
-                    const docRef = doc(db, "paintings", paintingId);
+                    const docRef = doc(db, "namgang_artworks", paintingId);
                     await updateDoc(docRef, paintingData);
                 } else {
                     if (!imageUrl) {
@@ -494,7 +495,7 @@
             const id = e.currentTarget.dataset.id;
             if (window.confirm("정말로 이 작품을 삭제하시겠습니까?")) {
                 try {
-                    await deleteDoc(doc(db, "paintings", id));
+                    await deleteDoc(doc(db, "namgang_artworks", id));
                 } catch (error) {
                     console.error("작품 삭제 실패:", error);
                     alert("작품 삭제에 실패했습니다.");
