@@ -7,6 +7,8 @@
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700&family=Noto+Sans+KR:wght@400;500;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Image Compression Library -->
+    <script src="https://cdn.jsdelivr.net/npm/browser-image-compression@2.0.2/dist/browser-image-compression.js"></script>
     <style>
         body {
             font-family: 'Inter', 'Noto Sans KR', sans-serif;
@@ -403,18 +405,29 @@
 
             const paintingId = document.getElementById('painting-id').value;
             const isFileTabActive = fileTab.classList.contains('tab-active');
-            const file = document.getElementById('imageFile').files[0];
+            const originalFile = document.getElementById('imageFile').files[0];
             let imageUrl = document.getElementById('imageUrl').value;
 
             try {
                 if (isFileTabActive) {
-                    if (file) {
-                        uploadStatus.textContent = '파일 업로드 중...';
-                        const storageRef = ref(storage, `paintings/${Date.now()}_${file.name}`);
-                        const uploadTask = await uploadBytes(storageRef, file);
+                    if (originalFile) {
+                        uploadStatus.textContent = '이미지 압축 중...';
+                        
+                        // Image compression options
+                        const options = {
+                            maxSizeMB: 1,
+                            maxWidthOrHeight: 1920,
+                            useWebWorker: true
+                        }
+                        
+                        const compressedFile = await imageCompression(originalFile, options);
+                        uploadStatus.textContent = `압축 완료! 파일 업로드 중... (${(compressedFile.size / 1024 / 1024).toFixed(2)}MB)`;
+
+                        const storageRef = ref(storage, `paintings/${Date.now()}_${compressedFile.name}`);
+                        const uploadTask = await uploadBytes(storageRef, compressedFile);
                         imageUrl = await getDownloadURL(uploadTask.ref);
                         uploadStatus.textContent = '업로드 완료!';
-                    } else if (!paintingId) { // 새 작품 추가 시 파일이 없으면 에러
+                    } else if (!paintingId) {
                         alert('이미지 파일을 선택해주세요.');
                         throw new Error("File not selected");
                     }
@@ -427,15 +440,14 @@
                     status: document.getElementById('status').value,
                 };
                 
-                // 이미지 URL이 변경되었을 때만 업데이트
                 if (imageUrl) {
                     paintingData.imageUrl = imageUrl;
                 }
 
-                if (paintingId) { // 수정
+                if (paintingId) {
                     const docRef = doc(db, "paintings", paintingId);
                     await updateDoc(docRef, paintingData);
-                } else { // 추가
+                } else {
                     if (!imageUrl) {
                         alert('이미지 URL을 입력하거나 파일을 업로드해주세요.');
                         throw new Error("Image URL or file not provided");
