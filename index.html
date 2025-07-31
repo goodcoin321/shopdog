@@ -188,14 +188,15 @@
             getAuth, signInWithEmailAndPassword, onAuthStateChanged, signOut 
         } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-auth.js";
 
-        // [중요!] Firebase 콘솔에서 복사한 본인의 설정 값으로 이 부분을 교체해주세요.
+        // 사용자의 Firebase 프로젝트 설정 정보
         const firebaseConfig = {
-          apiKey: "YOUR_API_KEY",
-          authDomain: "YOUR_AUTH_DOMAIN",
-          projectId: "YOUR_PROJECT_ID",
-          storageBucket: "YOUR_STORAGE_BUCKET",
-          messagingSenderId: "YOUR_MESSAGING_SENDER_ID",
-          appId: "YOUR_APP_ID"
+          apiKey: "AIzaSyBEhDKRgpWX74nXnO9fJZcntGPQYciqCXk",
+          authDomain: "grimshop-1f929.firebaseapp.com",
+          projectId: "grimshop-1f929",
+          storageBucket: "grimshop-1f929.firebasestorage.app",
+          messagingSenderId: "29515445458",
+          appId: "1:29515445458:web:90c9a8cec7b4a528c5290b",
+          measurementId: "G-82E38R8HBE"
         };
 
         // Firebase 앱 초기화
@@ -274,6 +275,13 @@
         onSnapshot(q, (snapshot) => {
             const paintings = snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
             renderPaintings(paintings);
+        }, (error) => {
+            console.error("데이터를 불러오는 중 오류 발생: ", error);
+            gallery.innerHTML = `<div class="text-center col-span-full py-16">
+                    <i class="fa-solid fa-circle-exclamation text-4xl text-red-500"></i>
+                    <p class="mt-4 text-lg text-gray-600">데이터를 불러오는데 실패했습니다.</p>
+                    <p class="text-sm text-gray-500 mt-2">Firestore 색인(index) 문제가 발생했을 수 있습니다. 콘솔의 에러 메시지를 확인하세요.</p>
+                </div>`;
         });
 
         // 인증 상태 변경 감지 (로그인/로그아웃)
@@ -391,7 +399,8 @@
         // 작품 삭제 버튼 클릭 처리
         async function handleDelete(e) {
             const id = e.currentTarget.dataset.id;
-            if (confirm("정말로 이 작품을 삭제하시겠습니까?")) {
+            // confirm()은 iframe 환경에서 작동하지 않을 수 있으므로, 실제 환경에서는 커스텀 모달로 대체하는 것이 좋습니다.
+            if (window.confirm("정말로 이 작품을 삭제하시겠습니까?")) {
                 try {
                     await deleteDoc(doc(db, "paintings", id));
                 } catch (error) {
@@ -404,13 +413,3 @@
     </script>
 </body>
 </html>
-```
-
-### 사용 전 필수 확인 사항
-
-1.  **Firebase 설정값 입력**: 위 코드의 `firebaseConfig` 부분에 **반드시 본인의 Firebase 프로젝트 설정값**을 채워넣어야 합니다. (API 키, 프로젝트 ID 등)
-2.  **Firebase 기능 활성화**:
-    * **Authentication**: 이메일/비밀번호 로그인 방식 활성화 및 관리자 계정 생성
-    * **Firestore Database**: 데이터베이스 생성 (테스트 모드)
-
-이 두 가지를 완료한 후, 위 코드를 `index.html`로 저장하여 GitHub에 올리시면 원하시는 그림 판매 홈페이지가 완성됩
