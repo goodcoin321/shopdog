@@ -411,16 +411,20 @@
             try {
                 if (isFileTabActive) {
                     if (originalFile) {
-                        uploadStatus.textContent = '이미지 압축 중...';
-                        
-                        // Image compression options
+                        // More aggressive compression options for faster uploads
                         const options = {
-                            maxSizeMB: 1,
-                            maxWidthOrHeight: 1920,
-                            useWebWorker: true
+                            maxSizeMB: 0.8, // Target size 0.8MB
+                            maxWidthOrHeight: 1600, // Max resolution 1600px
+                            useWebWorker: true,
+                            // Add progress feedback
+                            onProgress: (p) => {
+                                uploadStatus.textContent = `이미지 압축 중... ${p}%`;
+                            }
                         }
                         
+                        uploadStatus.textContent = '이미지 압축을 시작합니다...';
                         const compressedFile = await imageCompression(originalFile, options);
+                        
                         uploadStatus.textContent = `압축 완료! 파일 업로드 중... (${(compressedFile.size / 1024 / 1024).toFixed(2)}MB)`;
 
                         const storageRef = ref(storage, `paintings/${Date.now()}_${compressedFile.name}`);
